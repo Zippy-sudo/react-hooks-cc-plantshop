@@ -25,7 +25,16 @@ button {
 
 button.primary {
   background-color: var(--green);
+  border-radius: 5px;
+  margin: 0.5vw;
   color: white;
+}
+
+button.secondary{
+  background-color: black;
+  color: white;
+  margin: 0.5vw;
+  border-radius: 5px;
 }
 
 .app {
@@ -111,6 +120,19 @@ input:focus {
 
 .card button {
   margin-top: 0.5rem;
+}
+
+button.delete {
+  background-color: red;
+  border-radius: 5px;
+  margin: 0.5vw;
+}
+
+button.updating {
+  background-color: gray;
+  color: rgb(18, 196, 202);
+  border-radius: 5px;
+  margin: 0.5vw;
 }
 
 @media (min-width: 768px) {
