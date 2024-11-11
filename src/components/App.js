@@ -45,7 +45,7 @@ function App() {
     })
       .then(resp => resp.json())
       .then(newPostedPlant => {
-        setPlantData([[...plantData], {newPostedPlant}])
+        setPlantData([[...plantData], newPostedPlant])
         console.log("POST success", newPostedPlant);
       })
       .catch(error => {
