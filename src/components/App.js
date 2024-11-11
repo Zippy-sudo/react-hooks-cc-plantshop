@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import Header from "./Header";
 import PlantPage from "./PlantPage";
 
@@ -11,6 +11,7 @@ function App() {
   const [formImage, setFormImage] = useState("");
   const [formPrice, setFormPrice] = useState(0);
   const [search, setSearch] = useState("");
+
 
   useEffect(() => {
     fetch(baseURL)
@@ -32,21 +33,20 @@ function App() {
   }
 
   function handleFormSubmit() {
+
+    const newPlantObj = { name: formName, image: formImage, price: formPrice }
+
     fetch(baseURL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "Application/JSON"
       },
-      body: JSON.stringify({
-        name: formName,
-        image: formImage,
-        price: formPrice
-      })
+      body: JSON.stringify(newPlantObj)
     })
       .then(resp => resp.json())
       .then(newPostedPlant => {
+        setPlantData([[...plantData], {newPostedPlant}])
         console.log("POST success", newPostedPlant);
-        setPlantData([...plantData], newPostedPlant);
       })
       .catch(error => {
         alert("POST failed")
@@ -73,7 +73,7 @@ function App() {
       .then(updatedPlantObject => {
         console.log("PATCH success", updatedPlantObject)
         const updatedPlantObjectsList = plantData.map(plantObj => {
-          if(plantObj.id === parseInt(event.target.id, 10)){
+          if (plantObj.id === parseInt(event.target.id, 10)) {
             return {
               id: plantObj.id,
               name: plantObj.name,
@@ -81,7 +81,7 @@ function App() {
               price: updateState
             }
           }
-            return plantObj
+          return plantObj
         })
         console.log(updatedPlantObjectsList)
         setPlantData(updatedPlantObjectsList)
@@ -92,21 +92,22 @@ function App() {
     fetch(`${baseURL}/${id}`, {
       method: "DELETE",
     })
-    .then(resp => resp.json())
-    .then(deletedPlantObj => {
-      console.log("DELETE success",deletedPlantObj)
-      const updatedPlantObjectsList = plantData.filter(plantObj => {
-        return plantObj.id !== parseInt(id, 10)
+      .then(resp => resp.json())
+      .then(deletedPlantObj => {
+        console.log("DELETE success", deletedPlantObj)
+        const updatedPlantObjectsList = plantData.filter(plantObj => {
+          return plantObj.id !== parseInt(id, 10)
+        })
+        console.log(updatedPlantObjectsList)
+        setPlantData(updatedPlantObjectsList);
       })
-      console.log(updatedPlantObjectsList)
-      setPlantData(updatedPlantObjectsList);
-    })
-    .catch(error => {
-      alert("DELETE failed")
-      console.log(error)
-    })
+      .catch(error => {
+        alert("DELETE failed")
+        console.log(error)
+      })
   }
 
+  console.log(plantData)
   const selectPlantData = plantData.filter(plantObj => {
     if (search === "") {
       return true;
@@ -118,7 +119,7 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <PlantPage selectPlantData={selectPlantData} handleFormNameChange={handleFormNameChange} handleFormImageChange={handleFormImageChange} handleFormPriceChange={handleFormPriceChange} handleFormSubmit={handleFormSubmit} handleSearchChange={handleSearchChange} handlePriceUpdate={handlePriceUpdate} handleDeleteClick={handleDeleteClick}/>
+      <PlantPage selectPlantData={selectPlantData} handleFormNameChange={handleFormNameChange} handleFormImageChange={handleFormImageChange} handleFormPriceChange={handleFormPriceChange} handleFormSubmit={handleFormSubmit} handleSearchChange={handleSearchChange} handlePriceUpdate={handlePriceUpdate} handleDeleteClick={handleDeleteClick} />
     </div>
   );
 }
